@@ -1,0 +1,366 @@
+---
+title:
+  Scaling in Distributed Systems – Vertical Scaling, Horizontal Scaling & ASGs
+summary:
+  Understanding vertical scaling, Node.js clustering, capacity estimation,
+  autoscaling groups, and queue-based scaling architecture.
+author: 'Pankaj Yadav'
+publishedAt: '2026-04-13'
+---
+
+Scaling is one of the most important concepts in system design. As traffic
+increases, applications must handle more requests efficiently without crashing
+or slowing down.
+
+This article covers vertical scaling, Node.js clustering, autoscaling
+strategies, capacity estimation, and queue-based architectures for large-scale
+applications.
+
+## Vertical Scaling
+
+### What is Vertical Scaling?
+
+Vertical scaling means increasing the resources of a single machine to handle
+higher traffic.
+
+This includes:
+
+- Increasing CPU power
+- Adding more RAM
+- Upgrading storage
+- Better machine configurations
+
+Example:
+
+```text
+2 CPU + 4GB RAM → 8 CPU + 32GB RAM
+```
+
+Vertical scaling is simple to implement but has hardware limitations.
+
+---
+
+## Limitation in Node.js
+
+Node.js runs on a **single-threaded event loop**.
+
+This means:
+
+- One process typically uses only one CPU core
+- Multi-core CPUs are not fully utilized automatically
+
+In contrast, languages such as:
+
+- Go
+- Rust
+- Java
+
+support multithreading and can efficiently utilize multiple CPU cores.
+
+---
+
+## A Naive Approach (Incorrect)
+
+A beginner approach might be manually starting multiple Node.js processes:
+
+```bash
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
+node index.js
+```
+
+### Problems with This Approach
+
+1. Difficult process management
+2. Port conflicts between processes
+3. No built-in load balancing
+4. No fault tolerance or auto recovery
+
+---
+
+## Solution: Node.js Cluster Module
+
+Node.js provides a built-in `cluster` module to use multiple CPU cores.
+
+Benefits:
+
+- Creates worker processes
+- Uses multiple CPU cores
+- Workers share the same port
+- Requests are distributed automatically
+
+### Application Logic (`index.js`)
+
+```javascript
+import express from 'express'
+
+export const app = express()
+
+console.log(`Worker ${process.pid} started`)
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.get('/api/:n', (req, res) => {
+  let n = parseInt(req.params.n)
+  let count = 0
+
+  if (n > 5000000000) {
+    n = 5000000000
+  }
+
+  for (let i = 0; i <= n; i++) {
+    count += i
+  }
+
+  res.send(`Final count is ${count} (handled by PID ${process.pid})`)
+})
+```
+
+### Cluster Entry (`bin.js`)
+
+```javascript
+import cluster from 'cluster'
+import os from 'os'
+import { app } from './index.js'
+
+const totalCPUs = os.cpus().length
+const port = 3000
+
+if (cluster.isPrimary) {
+  console.log(`Number of CPUs: ${totalCPUs}`)
+  console.log(`Primary process ${process.pid} is running`)
+
+  for (let i = 0; i < totalCPUs; i++) {
+    cluster.fork()
+  }
+
+  cluster.on('exit', worker => {
+    console.log(`Worker ${worker.process.pid} died`)
+    console.log('Restarting worker...')
+    cluster.fork()
+  })
+} else {
+  app.listen(port, () => {
+    console.log(`App listening on port ${port}`)
+  })
+}
+```
+
+---
+
+## Parallel Computation Using Clusters
+
+Heavy CPU tasks can be divided among workers.
+
+Instead of one process calculating everything sequentially, the workload is
+split across multiple CPU cores.
+
+### Cluster-Based Parallel Computation
+
+```javascript
+import cluster from 'cluster'
+import os from 'os'
+
+const numCPUs = os.cpus().length
+const n = 1_000_000_000
+
+if (cluster.isPrimary) {
+  const chunkSize = Math.floor(n / numCPUs)
+
+  let completed = 0
+  let totalSum = 0
+
+  const startTime = Date.now()
+
+  for (let i = 0; i < numCPUs; i++) {
+    const start = i * chunkSize + 1
+    const end = i === numCPUs - 1 ? n : (i + 1) * chunkSize
+
+    const worker = cluster.fork()
+
+    worker.send({ start, end })
+
+    worker.on('message', partialSum => {
+      totalSum += partialSum
+      completed++
+
+      if (completed === numCPUs) {
+        const endTime = Date.now()
+
+        console.log('Total Sum:', totalSum)
+        console.log('Execution Time:', endTime - startTime, 'ms')
+
+        for (const id in cluster.workers) {
+          cluster.workers[id]?.kill()
+        }
+      }
+    })
+  }
+} else {
+  process.on('message', ({ start, end }) => {
+    let sum = 0
+
+    for (let i = start; i <= end; i++) {
+      sum += i
+    }
+
+    process.send?.(sum)
+  })
+}
+```
+
+### Sequential Computation
+
+```javascript
+const n = 1_000_000_000
+
+let sum = 0
+
+const start = Date.now()
+
+for (let i = 1; i <= n; i++) {
+  sum += i
+}
+
+const end = Date.now()
+
+console.log('Sum:', sum)
+console.log('Time:', end - start, 'ms')
+```
+
+---
+
+## Capacity Estimation
+
+Before scaling, estimate how much traffic your system must handle.
+
+### Step 1: Estimate Requests Per Second (RPS)
+
+Example:
+
+```text
+10,000 users ≈ 100 RPS
+```
+
+---
+
+### Step 2: Measure Server Capacity
+
+Benchmark a single machine.
+
+Example:
+
+```text
+1 server = 500 RPS
+```
+
+---
+
+### Step 3: Estimate Required Machines
+
+Formula:
+
+```text
+Total RPS / RPS per machine
+```
+
+Example:
+
+```text
+1000 RPS / 500 = 2 machines
+```
+
+---
+
+## Autoscaling Groups (ASGs)
+
+Autoscaling automatically adjusts infrastructure based on demand.
+
+Scaling decisions can be based on:
+
+- CPU usage
+- Memory usage
+- Traffic spikes
+- Queue length
+
+Benefits:
+
+- Saves cost
+- Handles sudden traffic
+- Improves availability
+
+---
+
+## Scaling Complex Applications
+
+For high-scale systems, simple server scaling is often not enough.
+
+A queue-based architecture is commonly used.
+
+### Architecture Flow
+
+```text
+Client → Queue → Workers → Database/Storage → Response
+```
+
+---
+
+## Queue-Based Processing
+
+Typical flow:
+
+1. Request arrives
+2. Request enters a queue
+3. Workers consume tasks
+4. Processing happens asynchronously
+5. Results are stored
+
+---
+
+## Dynamic Worker Scaling
+
+As load increases:
+
+```text
+More Queue Jobs → More Workers
+```
+
+As load decreases:
+
+```text
+Fewer Jobs → Fewer Workers
+```
+
+This approach enables efficient horizontal scaling.
+
+---
+
+## Benefits of Queue-Based Systems
+
+- Handles high traffic efficiently
+- Prevents server overload
+- Enables horizontal scaling
+- Improves reliability
+- Supports asynchronous workloads
+
+---
+
+## Conclusion
+
+Simple applications often scale using better machines and additional servers.
+However, large-scale systems rely on clustering, autoscaling, queues, and worker
+architectures to handle millions of requests efficiently.
+
+Understanding when to use vertical scaling, horizontal scaling, or distributed
+processing is essential for designing reliable systems.
+
+
+
+

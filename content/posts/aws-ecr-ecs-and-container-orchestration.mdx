@@ -1,0 +1,400 @@
+---
+title: AWS ECR, ECS & Container Orchestration
+summary:
+  Learn how to containerize a Node.js application, push Docker images to AWS
+  ECR, and deploy scalable applications using ECS and Fargate.
+author: 'Pankaj Yadav'
+publishedAt: '2026-04-25'
+---
+
+Modern applications are commonly deployed using containers. AWS provides
+services such as **Elastic Container Registry (ECR)** and **Elastic Container
+Service (ECS)** to simplify deployment and scaling.
+
+This guide explains how to containerize a Node.js application, push Docker
+images to AWS ECR, and deploy applications using ECS and Fargate.
+
+## What is ECR?
+
+**ECR (Elastic Container Registry)** is AWS's managed Docker image registry.
+
+It helps developers:
+
+- Store container images securely
+- Manage versions of Docker images
+- Deploy directly to ECS or EKS
+- Scale repositories automatically
+
+### Features of ECR
+
+- Private repositories
+- ECS & EKS integration
+- Automatic scaling
+- IAM-based security
+
+---
+
+## What is ECS?
+
+**ECS (Elastic Container Service)** is AWS's container orchestration platform.
+
+It helps:
+
+- Deploy containers
+- Scale services
+- Manage infrastructure
+- Recover failed containers
+
+---
+
+## ECS Concepts
+
+### Cluster
+
+A cluster is a group of resources where containers run.
+
+#### EC2 Cluster
+
+```text
+You manage the servers.
+```
+
+#### Fargate Cluster
+
+```text
+AWS manages infrastructure for you.
+```
+
+You only configure:
+
+- CPU
+- Memory
+- Container image
+
+---
+
+### Task Definition
+
+A task definition is a blueprint for containers.
+
+It defines:
+
+- Docker image
+- CPU and memory
+- Networking
+- Environment variables
+- Port mappings
+
+---
+
+### Service
+
+A service ensures containers continue running.
+
+It handles:
+
+- Scaling
+- Auto recovery
+- Load balancing
+
+---
+
+## Containerizing a Node.js App
+
+### Initialize Bun App
+
+```bash
+bun init
+```
+
+### Install Express
+
+```bash
+bun add express @types/express
+```
+
+### Create Basic App
+
+```javascript
+import express from 'express'
+
+const app = express()
+
+app.get('/cpu', (req, res) => {
+  for (let i = 0; i < 100000000; i++) {
+    Math.random()
+  }
+
+  res.send('Hello world')
+})
+
+app.get('/', (req, res) => {
+  res.send('hii')
+})
+
+app.listen(3000)
+```
+
+---
+
+## Create Dockerfile
+
+Create a file named `Dockerfile`.
+
+```text
+FROM oven/bun:alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN bun install
+
+CMD ["bun", "run", "index.ts"]
+```
+
+---
+
+## Build Docker Image
+
+```bash
+docker build -t node-app .
+```
+
+For Apple Silicon:
+
+```bash
+docker build --platform=linux/amd64 -t node-app .
+```
+
+---
+
+## Run Container
+
+```bash
+docker run -p 3000:3000 node-app
+```
+
+Visit:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## Creating ECR Repository
+
+### Step 1: Open ECR
+
+Create a repository.
+
+Choose:
+
+```text
+Private Repository
+```
+
+---
+
+### Step 2: Create IAM Credentials
+
+Generate:
+
+- Access Key ID
+- Secret Access Key
+
+---
+
+### Step 3: Install AWS CLI
+
+```text
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+```
+
+---
+
+### Step 4: Configure AWS
+
+```bash
+aws configure
+```
+
+Provide:
+
+```text
+AWS Access Key
+AWS Secret Key
+Region
+Output format
+```
+
+---
+
+### Step 5: Login to ECR
+
+```bash
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin your-account-id.dkr.ecr.ap-south-1.amazonaws.com
+```
+
+---
+
+### Step 6: Tag Image
+
+```bash
+docker tag node-app:latest your-account-id.dkr.ecr.ap-south-1.amazonaws.com/node-app:latest
+```
+
+---
+
+### Step 7: Push Image
+
+```bash
+docker push your-account-id.dkr.ecr.ap-south-1.amazonaws.com/node-app:latest
+```
+
+---
+
+## ECS Architecture
+
+```text
+Client → Load Balancer → ECS Service → Task → Container
+```
+
+### Cluster
+
+A collection of compute resources.
+
+Examples:
+
+- EC2 Cluster
+- Fargate Cluster
+
+---
+
+### Task
+
+A task is a running container.
+
+It comes from:
+
+```text
+Task Definition
+```
+
+---
+
+### Service
+
+A service manages:
+
+- Task count
+- Failures
+- Scaling
+- Load balancing
+
+---
+
+## Creating ECS Cluster
+
+Go to:
+
+```text
+AWS ECS → Create Cluster
+```
+
+Choose:
+
+```text
+Fargate
+```
+
+or:
+
+```text
+EC2 + Fargate
+```
+
+---
+
+## Create Task Definition
+
+Go to:
+
+```text
+Task Definitions → Create
+```
+
+Steps:
+
+1. Name the task
+2. Choose **Fargate**
+3. Add Docker image from ECR
+4. Configure CPU and memory
+5. Add port:
+
+```text
+3000
+```
+
+---
+
+## Create ECS Service
+
+Recommended configuration:
+
+```text
+Capacity base = 0
+Weight = 1
+Desired tasks = 1
+```
+
+---
+
+## Load Balancer & Target Group
+
+Traffic flow:
+
+```text
+Load Balancer → Target Group → ECS Tasks
+```
+
+Open port:
+
+```text
+80
+```
+
+for public access.
+
+---
+
+## HTTPS Setup
+
+Add listener:
+
+```text
+HTTPS (443)
+```
+
+Attach:
+
+- SSL Certificate
+- Target Group
+
+Allow:
+
+```text
+443
+```
+
+in security groups.
+
+---
+
+## Conclusion
+
+AWS ECR and ECS make deploying containerized applications easier. By combining
+Docker, ECS, Fargate, Load Balancers, and Target Groups, developers can deploy
+scalable applications without manually managing servers.
+

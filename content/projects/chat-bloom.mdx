@@ -1,0 +1,110 @@
+---
+title: Chat Bloom
+summary:
+  A real-time chat application that allows users to exchange messages, share
+  images, and stay connected through live updates.
+image: /images/projects/chat-bloom.png
+author: 'Pankaj Yadav'
+publishedAt: '2024-05-13'
+---
+
+Chat Bloom is a **real-time chat application** built using the **MERN stack**
+with **Socket.io**, enabling users to exchange messages instantly, share images,
+and stay connected through live updates.
+
+The platform focuses on seamless communication with secure authentication,
+responsive design, and efficient state management. Chat Bloom also provides
+real-time online user tracking, secure login functionality, and optimized
+frontend performance.
+
+## Live Demo
+
+Visit the application here:
+
+[Chat Bloom Live Demo](https://chat-bloom-405j.onrender.com/)
+
+## Features
+
+- **Real-time Messaging**: Send and receive messages instantly using Socket.io
+- **Image Sharing**: Share images during conversations
+- **Authentication & Authorization**: Secure login and user management using JWT
+- **Online User Status**: Real-time updates for user availability
+- **Global State Management**: Simplified state management using Zustand
+- **Error Handling**: Robust client-side and server-side error handling
+- **Responsive Design**: Modern UI built with Tailwind CSS and Daisy UI
+
+## Technologies
+
+- **MongoDB**: Database for storing users and chat messages
+- **Express.js**: Backend framework for REST APIs
+- **React.js**: Frontend library for dynamic interfaces
+- **Node.js**: Server-side JavaScript runtime
+- **Socket.io**: Real-time bidirectional communication
+- **JWT Authentication**: Secure authentication and authorization
+- **Zustand**: Lightweight global state management
+- **Tailwind CSS**: Utility-first CSS framework
+- **Daisy UI**: Component library for building modern interfaces
+
+## Environment Variables
+
+Create a `.env` file and add:
+
+```env
+MONGODB_URI=...
+
+PORT=5001
+
+JWT_SECRET=...
+
+CLOUDINARY_CLOUD_NAME=...
+CLOUDINARY_API_KEY=...
+CLOUDINARY_API_SECRET=...
+
+NODE_ENV=development
+```
+
+## Getting Started
+
+Clone the repository:
+
+```bash
+git clone <repository-url>
+cd chat-bloom
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+The application will start at:
+
+```text
+http://localhost:5001
+```
+
+## Build for Production
+
+```bash
+npm run build
+```
+
+## Start Production Server
+
+```bash
+npm start
+```
+
+## Conclusion
+
+Chat Bloom demonstrates how a scalable and modern real-time messaging platform
+can be built using the MERN stack and Socket.io. With secure authentication,
+instant messaging, image sharing, and responsive design, the application
+delivers a fast and engaging communication experience.

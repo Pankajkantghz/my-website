@@ -1,0 +1,304 @@
+---
+title: Personal Blog API
+summary:
+  A scalable and secure blog backend API built with Node.js, Express, MongoDB,
+  and JWT authentication.
+image: /images/projects/personal-blog-api.png
+author: 'Pankaj Yadav'
+publishedAt: '2026-06-14'
+---
+
+This project is a **production-ready Blog API** built to explore how a modern
+backend system works in a real-world application.
+
+I wanted to go beyond basic CRUD operations and design something closer to a
+real production system — with secure authentication, role-based access,
+analytics, admin moderation, file uploads, and scalable architecture.
+
+The API is built using **Node.js**, **Express.js**, **MongoDB**, and **JWT
+Authentication**, with a strong focus on **security, maintainability, and clean
+architecture**.
+
+## Why I Built This
+
+Most blog APIs stop at authentication and CRUD operations. For this project, I
+wanted to challenge myself by building a backend that feels closer to what you
+might see in a real application.
+
+The goal was to practice:
+
+- Designing scalable REST APIs
+- Authentication & authorization
+- Secure backend practices
+- Database relationships and structure
+- Error handling and validation
+- Building clean and maintainable architecture
+
+## Features
+
+### Authentication & Security
+
+Authentication is implemented using **JWT access and refresh tokens** to keep
+sessions secure.
+
+Users can:
+
+- Sign up and log in securely
+- Reset passwords using OTP verification
+- Refresh expired access tokens
+- Access protected routes
+- Manage profiles
+
+To improve security, the project also includes:
+
+- Role-based access (`user`, `admin`)
+- Account locking for brute-force prevention
+- Password hashing using `bcrypt`
+- Secure cookies
+- Rate limiting
+- Helmet security headers
+- Centralized error handling
+
+### Article Management
+
+The API allows users to create and manage blog articles with support for:
+
+- Creating, updating, and deleting articles
+- Draft and published states
+- Slug-based URLs
+- Search and filtering
+- Pagination
+- Category and tag filtering
+- Sorting
+- Trending articles
+- Recommended articles
+- Article analytics
+
+### Engagement Features
+
+A blog feels incomplete without interactions, so the API includes:
+
+#### Likes & Dislikes
+
+Users can:
+
+- Like or dislike articles
+- Toggle reactions
+- Track engagement analytics
+
+#### Bookmarks
+
+Users can:
+
+- Save articles for later
+- Remove bookmarks
+- View bookmarked content
+- Access published-only saved posts
+
+#### Comments System
+
+The comments feature supports:
+
+- Adding comments
+- Replying to comments
+- Updating comments
+- Deleting comments
+- Nested replies
+
+### Admin Features
+
+An admin dashboard is included to simulate real moderation tools.
+
+Admins can:
+
+#### Manage Users
+
+- View all users
+- Search users
+- Lock or unlock accounts
+- Change roles
+- Suspend or ban users
+- Delete users
+
+#### Moderate Articles
+
+- Review all articles
+- Change article status
+- Hide or block content
+- Delete inappropriate articles
+
+#### View Dashboard Metrics
+
+- Total users
+- Total articles
+- New users today
+- Published articles
+- Locked accounts
+- Total views
+- Trending articles
+
+### File Upload Support
+
+The project supports image uploads using **Cloudinary** with:
+
+- Secure image uploads
+- Multipart form data support
+- Protected upload routes using JWT
+
+## Technologies Used
+
+### Backend
+
+- **Node.js**
+- **Express.js**
+- **MongoDB**
+- **Mongoose**
+
+### Authentication & Security
+
+- **JWT**
+- **bcrypt**
+- **Helmet**
+- **Express Rate Limit**
+- **Cookie Parser**
+- **Compression**
+
+### Validation
+
+- **Zod**
+
+### File Uploads
+
+- **Multer**
+- **Cloudinary**
+- **Streamifier**
+
+### API Documentation
+
+- **Swagger UI**
+- **Swagger JSDoc**
+
+## Project Structure
+
+```txt
+backend/
+│── config/
+│   ├── db.js
+│   ├── env.js
+│   ├── swagger.js
+│   └── cloudinary.js
+│
+│── controllers/
+│── middleware/
+│── models/
+│── routes/
+│── services/
+│── utils/
+│── validators/
+│── server.js
+```
+
+## Getting Started
+
+Clone the repository:
+
+```bash
+git clone <your-repository-url>
+cd backend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Run in production mode:
+
+```bash
+npm start
+```
+
+The API runs locally on:
+
+```text
+http://localhost:5000
+```
+
+## API Documentation
+
+Swagger documentation is available at:
+
+```text
+http://localhost:5000/api-docs
+```
+
+It provides an interactive interface for testing API routes directly from the
+browser.
+
+## Main API Routes
+
+### Authentication
+
+```http
+POST   /api/v1/auth/signup
+POST   /api/v1/auth/login
+POST   /api/v1/auth/logout
+POST   /api/v1/auth/refresh-token
+POST   /api/v1/auth/forgot-password
+POST   /api/v1/auth/verify-otp
+POST   /api/v1/auth/reset-password
+GET    /api/v1/auth/profile
+PATCH  /api/v1/auth/profile
+```
+
+### Articles
+
+```http
+POST   /api/v1/articles
+GET    /api/v1/articles
+GET    /api/v1/articles/:slug
+PATCH  /api/v1/articles/:id
+DELETE /api/v1/articles/:id
+GET    /api/v1/articles/trending
+GET    /api/v1/articles/bookmarks
+POST   /api/v1/articles/:id/like
+POST   /api/v1/articles/:id/dislike
+POST   /api/v1/articles/:id/bookmark
+```
+
+### Comments
+
+```http
+POST   /api/v1/articles/:id/comments
+GET    /api/v1/articles/:id/comments
+POST   /api/v1/comments/:id/reply
+PATCH  /api/v1/comments/:id
+DELETE /api/v1/comments/:id
+```
+
+## What I Learned
+
+While building this project, I gained practical experience in:
+
+- Structuring a scalable backend project
+- Designing secure authentication systems
+- Writing reusable middleware
+- Handling complex relationships in MongoDB
+- Building admin-level authorization systems
+- Writing cleaner and maintainable code
+
+## Conclusion
+
+This project helped me move beyond beginner backend projects and think more
+about how production systems are structured.
+
+Instead of building only CRUD APIs, I focused on security, scalability, clean
+architecture, and real-world backend features — making this one of my strongest
+backend portfolio projects.
