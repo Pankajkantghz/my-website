@@ -1,0 +1,160 @@
+
+---
+title: Aarohan API
+summary:
+  A scalable and secure backend API built with Node.js, Express, MongoDB,
+  and JWT authentication.
+image: /images/projects/aarohan-api.png
+author: 'Pankaj Yadav'
+publishedAt: '2026-06-14'
+---
+
+Aarohan API is a **production-ready backend API** designed to simulate how a
+modern backend system works in real-world applications.
+
+Built using **Node.js**, **Express.js**, **MongoDB**, and **JWT
+Authentication**, the project focuses on building a secure, scalable, and
+maintainable architecture beyond simple CRUD operations.
+
+The API includes authentication, role-based authorization, content management,
+engagement features, admin moderation tools, analytics, and secure file upload
+support.
+
+## Features
+
+- **Authentication & Authorization**: Secure signup, login, refresh tokens,
+  OTP-based password reset, profile management, and protected routes using JWT
+- **Role-Based Access Control**: Separate permissions for `user` and `admin`
+  roles
+- **Content Management**: Create, update, delete, search, filter, and manage
+  articles with draft and published states
+- **Likes & Bookmarks**: Users can react to content and save articles for later
+- **Comments System**: Add comments, replies, nested discussions, and manage
+  interactions
+- **Admin Dashboard**: User management, article moderation, account control,
+  and analytics tracking
+- **File Upload Support**: Secure image uploads using Cloudinary
+- **Security Enhancements**: Rate limiting, Helmet, bcrypt password hashing,
+  secure cookies, and centralized error handling
+- **API Documentation**: Interactive API testing with Swagger UI
+
+## Technologies
+
+- **Node.js**: Backend runtime environment
+- **Express.js**: Framework for building scalable REST APIs
+- **MongoDB**: NoSQL database for application data
+- **Mongoose**: ODM for MongoDB schema modeling
+- **JWT Authentication**: Secure authentication and authorization
+- **bcrypt**: Password hashing
+- **Zod**: Request validation
+- **Helmet**: Security middleware
+- **Express Rate Limit**: API protection against abuse
+- **Cloudinary**: Cloud-based image upload and storage
+- **Multer**: File upload handling
+- **Swagger UI & Swagger JSDoc**: API documentation
+
+## Project Structure
+
+```txt
+backend/
+│── config/
+│   ├── db.js
+│   ├── env.js
+│   ├── swagger.js
+│   └── cloudinary.js
+│
+│── controllers/
+│── middleware/
+│── models/
+│── routes/
+│── services/
+│── utils/
+│── validators/
+│── server.js
+````
+
+## Getting Started
+
+Clone the repository:
+
+```bash
+git clone <repository-url>
+cd backend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+The API will start at:
+
+```text
+http://localhost:5000
+```
+
+## Production
+
+Start the production server:
+
+```bash
+npm start
+```
+
+## Main API Routes
+
+### Authentication
+
+```http
+POST   /api/v1/auth/signup
+POST   /api/v1/auth/login
+POST   /api/v1/auth/logout
+POST   /api/v1/auth/refresh-token
+POST   /api/v1/auth/forgot-password
+POST   /api/v1/auth/verify-otp
+POST   /api/v1/auth/reset-password
+GET    /api/v1/auth/profile
+PATCH  /api/v1/auth/profile
+```
+
+### Articles
+
+```http
+POST   /api/v1/articles
+GET    /api/v1/articles
+GET    /api/v1/articles/:slug
+PATCH  /api/v1/articles/:id
+DELETE /api/v1/articles/:id
+GET    /api/v1/articles/trending
+GET    /api/v1/articles/bookmarks
+POST   /api/v1/articles/:id/like
+POST   /api/v1/articles/:id/dislike
+POST   /api/v1/articles/:id/bookmark
+```
+
+### Comments
+
+```http
+POST   /api/v1/articles/:id/comments
+GET    /api/v1/articles/:id/comments
+POST   /api/v1/comments/:id/reply
+PATCH  /api/v1/comments/:id
+DELETE /api/v1/comments/:id
+```
+
+## Conclusion
+
+Aarohan API demonstrates how a scalable and secure backend system can be built
+using modern backend technologies. By combining authentication, role-based
+authorization, moderation tools, engagement features, and production-level
+security practices, the project reflects real-world backend engineering.
+
+```
+
