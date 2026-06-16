@@ -1,16 +1,15 @@
-
 ---
-title: Aarohan API
+title: Personal Blog API
 summary:
-  A scalable and secure backend API built with Node.js, Express, MongoDB,
-  and JWT authentication for a production-ready platform.
-image: /images/projects/aarohan-api.png
+  A scalable and secure blog backend API built with Node.js, Express, MongoDB,
+  and JWT authentication.
+image: /images/projects/personal-blog-api.png
 author: 'Pankaj Yadav'
 publishedAt: '2026-06-14'
 ---
 
-This project is a **production-ready Aarohan API** built to explore how a
-modern backend system works in a real-world application.
+This project is a **production-ready Blog API** built to explore how a modern
+backend system works in a real-world application.
 
 I wanted to go beyond basic CRUD operations and design something closer to a
 real production system — with secure authentication, role-based access,
@@ -22,9 +21,9 @@ architecture**.
 
 ## Why I Built This
 
-Most backend APIs stop at authentication and CRUD operations. For this project,
-I wanted to challenge myself by building a backend that feels closer to what
-you might see in a real application.
+Most blog APIs stop at authentication and CRUD operations. For this project, I
+wanted to challenge myself by building a backend that feels closer to what you
+might see in a real application.
 
 The goal was to practice:
 
@@ -60,30 +59,30 @@ To improve security, the project also includes:
 - Helmet security headers
 - Centralized error handling
 
-### Content Management
+### Article Management
 
-The API allows users to create and manage platform content with support for:
+The API allows users to create and manage blog articles with support for:
 
-- Creating, updating, and deleting content
+- Creating, updating, and deleting articles
 - Draft and published states
 - Slug-based URLs
 - Search and filtering
 - Pagination
 - Category and tag filtering
 - Sorting
-- Trending content
-- Recommended content
-- Content analytics
+- Trending articles
+- Recommended articles
+- Article analytics
 
 ### Engagement Features
 
-A platform feels incomplete without interactions, so the API includes:
+A blog feels incomplete without interactions, so the API includes:
 
 #### Likes & Dislikes
 
 Users can:
 
-- Like or dislike content
+- Like or dislike articles
 - Toggle reactions
 - Track engagement analytics
 
@@ -91,7 +90,7 @@ Users can:
 
 Users can:
 
-- Save content for later
+- Save articles for later
 - Remove bookmarks
 - View bookmarked content
 - Access published-only saved posts
@@ -121,22 +120,22 @@ Admins can:
 - Suspend or ban users
 - Delete users
 
-#### Moderate Content
+#### Moderate Articles
 
-- Review all content
-- Change content status
+- Review all articles
+- Change article status
 - Hide or block content
-- Delete inappropriate content
+- Delete inappropriate articles
 
 #### View Dashboard Metrics
 
 - Total users
-- Total content
+- Total articles
 - New users today
-- Published content
+- Published articles
 - Locked accounts
 - Total views
-- Trending content
+- Trending articles
 
 ### File Upload Support
 
@@ -197,7 +196,7 @@ backend/
 │── utils/
 │── validators/
 │── server.js
-````
+```
 
 ## Getting Started
 
@@ -259,26 +258,26 @@ GET    /api/v1/auth/profile
 PATCH  /api/v1/auth/profile
 ```
 
-### Content
+### Articles
 
 ```http
-POST   /api/v1/content
-GET    /api/v1/content
-GET    /api/v1/content/:slug
-PATCH  /api/v1/content/:id
-DELETE /api/v1/content/:id
-GET    /api/v1/content/trending
-GET    /api/v1/content/bookmarks
-POST   /api/v1/content/:id/like
-POST   /api/v1/content/:id/dislike
-POST   /api/v1/content/:id/bookmark
+POST   /api/v1/articles
+GET    /api/v1/articles
+GET    /api/v1/articles/:slug
+PATCH  /api/v1/articles/:id
+DELETE /api/v1/articles/:id
+GET    /api/v1/articles/trending
+GET    /api/v1/articles/bookmarks
+POST   /api/v1/articles/:id/like
+POST   /api/v1/articles/:id/dislike
+POST   /api/v1/articles/:id/bookmark
 ```
 
 ### Comments
 
 ```http
-POST   /api/v1/content/:id/comments
-GET    /api/v1/content/:id/comments
+POST   /api/v1/articles/:id/comments
+GET    /api/v1/articles/:id/comments
 POST   /api/v1/comments/:id/reply
 PATCH  /api/v1/comments/:id
 DELETE /api/v1/comments/:id
@@ -288,12 +287,12 @@ DELETE /api/v1/comments/:id
 
 While building this project, I gained practical experience in:
 
-* Structuring a scalable backend project
-* Designing secure authentication systems
-* Writing reusable middleware
-* Handling complex relationships in MongoDB
-* Building admin-level authorization systems
-* Writing cleaner and maintainable code
+- Structuring a scalable backend project
+- Designing secure authentication systems
+- Writing reusable middleware
+- Handling complex relationships in MongoDB
+- Building admin-level authorization systems
+- Writing cleaner and maintainable code
 
 ## Conclusion
 
@@ -303,5 +302,3 @@ about how production systems are structured.
 Instead of building only CRUD APIs, I focused on security, scalability, clean
 architecture, and real-world backend features — making this one of my strongest
 backend portfolio projects.
-
-```
