@@ -1,57 +1,49 @@
-
 ---
+
 title: Aarohan API
-summary:
-  A scalable and secure backend API built with Node.js, Express, MongoDB,
-  and JWT authentication.
+summary: A scalable and secure backend API built with Node.js, Express, MongoDB, and JWT authentication.
 image: /images/projects/aarohan-api.png
 author: 'Pankaj Yadav'
 publishedAt: '2026-06-14'
----
+-------------------------
 
-Aarohan API is a **production-ready backend API** designed to simulate how a
-modern backend system works in real-world applications.
+Aarohan API is a **production-ready backend API** built using the **MERN stack**
+to simulate how a modern backend system works in a real-world application.
 
-Built using **Node.js**, **Express.js**, **MongoDB**, and **JWT
-Authentication**, the project focuses on building a secure, scalable, and
-maintainable architecture beyond simple CRUD operations.
-
-The API includes authentication, role-based authorization, content management,
-engagement features, admin moderation tools, analytics, and secure file upload
-support.
+The platform focuses on secure authentication, role-based authorization,
+content management, admin moderation, analytics, and scalable backend
+architecture. Aarohan API also includes production-level security practices,
+file uploads, and interactive API documentation.
 
 ## Features
 
-- **Authentication & Authorization**: Secure signup, login, refresh tokens,
-  OTP-based password reset, profile management, and protected routes using JWT
-- **Role-Based Access Control**: Separate permissions for `user` and `admin`
-  roles
-- **Content Management**: Create, update, delete, search, filter, and manage
-  articles with draft and published states
-- **Likes & Bookmarks**: Users can react to content and save articles for later
-- **Comments System**: Add comments, replies, nested discussions, and manage
-  interactions
-- **Admin Dashboard**: User management, article moderation, account control,
-  and analytics tracking
-- **File Upload Support**: Secure image uploads using Cloudinary
-- **Security Enhancements**: Rate limiting, Helmet, bcrypt password hashing,
-  secure cookies, and centralized error handling
-- **API Documentation**: Interactive API testing with Swagger UI
+* **Authentication & Authorization**: Secure signup, login, refresh tokens,
+  OTP-based password reset, and protected routes using JWT
+* **Role-Based Access Control**: Separate permissions for `user` and `admin`
+* **Article Management**: Create, update, delete, publish, search, and filter
+  articles with slug-based URLs
+* **Likes & Bookmarks**: Like, dislike, and save articles for later
+* **Comments System**: Add comments, replies, and nested discussions
+* **Admin Dashboard**: Manage users, moderate articles, and view analytics
+* **File Upload Support**: Secure image uploads with Cloudinary
+* **Security Features**: Helmet, bcrypt, secure cookies, rate limiting, and
+  centralized error handling
+* **API Documentation**: Interactive API testing using Swagger UI
 
 ## Technologies
 
-- **Node.js**: Backend runtime environment
-- **Express.js**: Framework for building scalable REST APIs
-- **MongoDB**: NoSQL database for application data
-- **Mongoose**: ODM for MongoDB schema modeling
-- **JWT Authentication**: Secure authentication and authorization
-- **bcrypt**: Password hashing
-- **Zod**: Request validation
-- **Helmet**: Security middleware
-- **Express Rate Limit**: API protection against abuse
-- **Cloudinary**: Cloud-based image upload and storage
-- **Multer**: File upload handling
-- **Swagger UI & Swagger JSDoc**: API documentation
+* **MongoDB**: Database for storing application data
+* **Express.js**: Backend framework for REST APIs
+* **Node.js**: Server-side JavaScript runtime
+* **Mongoose**: ODM for MongoDB schema modeling
+* **JWT Authentication**: Secure authentication and authorization
+* **bcrypt**: Password hashing and account security
+* **Zod**: Request validation
+* **Helmet**: Security middleware
+* **Express Rate Limit**: API abuse prevention
+* **Cloudinary**: Cloud image storage
+* **Multer**: File upload handling
+* **Swagger UI**: API documentation
 
 ## Project Structure
 
@@ -71,7 +63,7 @@ backend/
 │── utils/
 │── validators/
 │── server.js
-````
+```
 
 ## Getting Started
 
@@ -100,9 +92,7 @@ The API will start at:
 http://localhost:5000
 ```
 
-## Production
-
-Start the production server:
+## Build for Production
 
 ```bash
 npm start
@@ -151,10 +141,7 @@ DELETE /api/v1/comments/:id
 
 ## Conclusion
 
-Aarohan API demonstrates how a scalable and secure backend system can be built
-using modern backend technologies. By combining authentication, role-based
-authorization, moderation tools, engagement features, and production-level
-security practices, the project reflects real-world backend engineering.
-
-```
-
+Aarohan API demonstrates how a scalable and secure backend platform can be
+built using modern backend technologies. With authentication, moderation,
+engagement features, and production-level security, the project reflects
+real-world backend engineering practices.
