@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import authorImage from '@/public/images/authors/pankaj.jpg'
+import authorImage from '@/public/images/authors/pankaj.png'
 
 export default function Intro() {
   return (
